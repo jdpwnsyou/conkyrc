@@ -1,0 +1,139 @@
+######################
+# - Conky settings - #
+######################
+update_interval 2
+total_run_times 0
+net_avg_samples 1
+cpu_avg_samples 2
+
+imlib_cache_size 0
+double_buffer yes
+no_buffers yes
+
+format_human_readable
+
+#####################
+# - Text settings - #
+#####################
+use_xft yes
+xftfont Droid Sans:size=8
+override_utf8_locale yes
+text_buffer_size 2048
+
+#############################
+# - Window specifications - #
+#############################
+own_window_class Conky
+own_window yes
+own_window_type normal
+own_window_argb_visual yes
+own_window_argb_value 150
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+alignment top_right
+gap_y 25
+gap_x 25
+border_inner_margin 8
+
+minimum_size 180 500
+maximum_width 180
+#maximum_height 560
+
+default_bar_size 92 6
+
+#########################
+# - Graphics settings - #
+#########################
+draw_shades yes
+default_shade_color 000000
+default_color FFFFFF
+
+TEXT
+${font Droid Sans:style=Bold:size=8}SYSTEM $stippled_hr${font}
+##############
+# - SYSTEM - #
+##############
+${voffset 6}${font OpenLogos:size=19}B${font}${goto 40}${voffset -15}Kernel:  ${alignr}${kernel}
+${goto 40}Uptime: ${alignr}${uptime}
+${if_match ${execi 30 acpi -b | awk '{print$4}' | grep -o '[0-9]*'} >= 0}${if_match ${execi 30 acpi -b | awk '{print$4}' | grep -o '[0-9]*'}  <= 20}${goto 40}${color red}Battery: ${font Droid Sans:style=Bold:size=8}${alignr}${battery_percent}%${color}${font}${endif}${endif}${if_match ${execi 30 acpi -b | awk '{print$4}' | grep -o '[0-9]*'} > 20}${if_match ${execi 30 acpi -b | awk '{print$4}' | grep -o '[0-9]*'}  <= 30}${goto 40}${color yellow}Battery: ${font Droid Sans:style=Bold:size=8}${alignr}${battery_percent}%${color}${font}${endif}${endif}${if_match ${execi 30 acpi -b | awk '{print$4}' | grep -o '[0-9]*'} > 30}${goto 40}Battery: ${font Droid Sans:style=Bold:size=8}${alignr}${battery_percent}%${font}${endif}
+# |--UPDATES
+${if_match ${execi 450 pacman -Qu | wc -l} >= 0}${if_match ${execi 450 pacman -Qu | wc -l} <= 20}${goto 40}Updates: ${alignr}${font Droid Sans:style=Bold:size=8}${execi 450 pacman -Qu | wc -l} Packages ${font}${endif}${endif}${if_match ${execi 450  pacman -Qu | wc -l} > 20}${if_match ${execi 450 pacman -Qu | wc -l} <= 30}${goto 40}${color yellow}Updates: ${alignr}${font Droid Sans:style=Bold:size=8}${execi 450 pacman -Qu | wc -l} Packages ${font}${color}${endif}${endif}${if_match ${execi 450 pacman -Qu | wc -l} > 30}${goto 40}${color red}Updates: ${font Droid Sans:style=Bold:size=8}${alignr}${execi 450 pacman -Qu | wc -l} Packages ${font}${color}${endif}
+
+# |--CPU
+${voffset 6}${font Droid Sans:style=Bold:size=8}CPU${font}${offset -20}${voffset 10}${cpubar cpu1 4,18}
+${voffset -23}${goto 40}Temp: ${font Droid Sans:style=Bold:size=8}${alignr}${execi 2 sensors -f | grep 'Core 0' | cut -c17-21}°F${font}
+${voffset 1}${goto 40}Core 0: ${font Droid Sans:style=Bold:size=8}${cpu cpu1}%${font} ${alignr}${cpubar cpu1 7,70 EEEEEE}
+${voffset 1}${goto 40}Core 1: ${font Droid Sans:style=Bold:size=8}${cpu cpu2}%${font} ${alignr}${cpubar cpu2 7,70 EEEEEE}
+${voffset 1}${goto 40}Core 2: ${font Droid Sans:style=Bold:size=8}${cpu cpu3}%${font} ${alignr}${cpubar cpu3 7,70 EEEEEE}
+${voffset 1}${goto 40}Core 3: ${font Droid Sans:style=Bold:size=8}${cpu cpu4}%${font} ${alignr}${cpubar cpu4 7,70 EEEEEE}
+${voffset 1}${goto 40}Core 4: ${font Droid Sans:style=Bold:size=8}${cpu cpu5}%${font} ${alignr}${cpubar cpu5 7,70 EEEEEE}
+${voffset 1}${goto 40}Core 5: ${font Droid Sans:style=Bold:size=8}${cpu cpu6}%${font} ${alignr}${cpubar cpu6 7,70 EEEEEE}
+${voffset 1}${goto 40}Core 6: ${font Droid Sans:style=Bold:size=8}${cpu cpu7}%${font} ${alignr}${cpubar cpu7 7,70 EEEEEE}
+${voffset 1}${goto 40}Core 7: ${font Droid Sans:style=Bold:size=8}${cpu cpu8}%${font} ${alignr}${cpubar cpu8 7,70 EEEEEE}
+# |--MEM
+${voffset 6}${font Droid Sans:style=Bold:size=8}RAM${font}${goto 40}RAM: ${font Droid Sans:style=Bold:size=8}$memperc%${font}
+${voffset 6}${offset 1}${voffset -8}${membar 4,18}${voffset 4}${goto 40}${voffset -2}Free: ${font Droid Sans:style=Bold:size=8}${memeasyfree}${font} ${goto 110}Used: ${font Droid Sans:style=Bold:size=8}${mem}${font}
+# |--SWAP
+${voffset 5}${font Droid Sans:style=Bold:size=8}SWP${font}${goto 40}Swap: ${font Droid Sans:style=Bold:size=8}${swapperc}%${font}
+${voffset 4}${offset 1}${voffset -7}${swapbar 4,18}${voffset 4}${goto 40}Free: ${font Droid Sans:style=Bold:size=8}$swapmax${font} ${goto 110}Used: ${font Droid Sans:style=Bold:size=8}$swap${font}
+# |--PROC
+${voffset 4}${font Droid Sans:style=Bold:size=8}TOP${font}${voffset 0}${goto 126}CPU${alignr}RAM
+${voffset -1}${goto 40}${color #ddaa00}${top name 1}${font Droid Sans:style=Bold:size=8} ${goto 120}${top cpu 1}${alignr }${top mem 1}${font}${color}
+${voffset -1}${goto 40}${top name 2}${font Droid Sans:style=Bold:size=8} ${goto 120}${top cpu 2}${alignr }${top mem 2}${font}
+${voffset -1}${goto 40}${top name 3}${font Droid Sans:style=Bold:size=8} ${goto 120}${top cpu 3}${alignr }${top mem 3}${font}
+${voffset -1}${goto 40}${top name 4}${font Droid Sans:style=Bold:size=8} ${goto 120}${top cpu 4}${alignr }${top mem 4}${font}
+${voffset -1}${goto 40}${top name 5}${font Droid Sans:style=Bold:size=8} ${goto 120}${top cpu 5}${alignr }${top mem 5}${font}
+${voffset -1}${goto 40}${top name 6}${font Droid Sans:style=Bold:size=8} ${goto 120}${top cpu 6}${alignr }${top mem 6}${font}
+${voffset -1}${goto 40}${top name 7}${font Droid Sans:style=Bold:size=8} ${goto 120}${top cpu 7}${alignr }${top mem 7}${font}
+${voffset -1}${goto 40}${top name 8}${font Droid Sans:style=Bold:size=8} ${goto 120}${top cpu 8}${alignr }${top mem 8}${font}
+${voffset -1}${goto 40}${top name 9}${font Droid Sans:style=Bold:size=8} ${goto 120}${top cpu 9}${alignr }${top mem 9}${font}
+${voffset -1}${goto 40}${top name 10}${font Droid Sans:style=Bold:size=8} ${goto 120}${top cpu 10}${alignr }${top mem 10}${font}
+#############
+# - CLOCK - #
+#############
+${voffset 6}${font Droid Sans:style=Bold:size=8}DATE $stippled_hr${font}
+${font Droid Sans:size=20}${alignc}${time %l:%M %p}${font}
+${alignc}${time %A %d %B %Y}
+###############
+# - NETWORK - #
+###############
+${voffset 4}${font Droid Sans:style=Bold:size=8}NETWORK $stippled_hr${font}
+${goto 20}${if_existing /proc/net/route wifi0}${voffset 4}Down: ${font Droid Sans:style=Bold:size=8}${downspeed wifi0}${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}${totaldown wifi0}
+${downspeedgraph wifi0 30,180 EEEEEE}${font}
+${voffset 4}${goto 20}Up: ${font Droid Sans:style=Bold:size=8}${upspeed wifi0}${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}${totalup wifi0}${font}
+${upspeedgraph wifi0 30,180 EEEEEE}
+${voffset 4}${goto 20}Network: ${font Droid Sans:style=Bold:size=8}${alignr}${color green}${wireless_essid wifi0}${color}
+${goto 20}${font }Local IP: ${font Droid Sans:style=Bold:size=8}${alignr}${addr wifi0}${font}
+${goto 20}Public IP: ${font Droid Sans:style=Bold:size=8}${alignr}${execi 30 curl http://ipecho.net/plain; echo}${font}
+${goto 20}IP Location: ${font Droid Sans:style=Bold:size=8}${alignr}${execi 30 curl -s ipinfo.io | grep "region" | cut -d '"' -f4}${font}
+${else}${if_existing /proc/net/route net0}${voffset 4}Down: ${font Droid Sans:style=Bold:size=8}${downspeed net0}${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}${totaldown net0}${font}
+${downspeedgraph net0 30,180 EEEEEE}
+${voffset 4}${goto 20}Up: ${font Droid Sans:style=Bold:size=8}${upspeed net0}${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}${totalup net0}${font}
+${upspeedgraph net0 30,180 EEEEEE}
+${voffset 4}${goto 20}${font }Network: ${font Droid Sans:style=Bold:size=8}${alignr}${color green}Wired${font}${color}
+${goto 20}${font }Local IP: ${alignr}${font Droid Sans:style=Bold:size=8}${addr net0}${font}
+${goto 20}Public IP: ${alignr}${font Droid Sans:style=Bold:size=8}${execi 30 curl http://ipecho.net/plain; echo}${font}
+${goto 20}IP Location: ${font Droid Sans:style=Bold:size=8}${alignr}${execi 30 curl -s ipinfo.io | grep "region" | cut -d '"' -f4}${font}
+${else}${voffset 4}${goto 20}${voffset 4}Down: ${font Droid Sans:style=Bold:size=8}-${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}-
+${downspeedgraph none 30,180 EEEEEE}${font}
+${voffset 4}${goto 20}Up: ${font Droid Sans:style=Bold:size=8}-${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}-${font}
+${upspeedgraph none 30,180 EEEEEE}
+${voffset 4}${goto 20}${font }Network: ${font Droid Sans:style=Bold:size=8}${alignr}${color red}Not connected${font}${color}
+${goto 20}${font }Local IP: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}
+${goto 20}Public IP: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}
+${goto 20}IP Location: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}
+${endif}${endif}
+##########
+# - HD - #
+##########
+${font Droid Sans:style=Bold:size=8}HD $stippled_hr${font}
+# |--HD default
+  ${voffset 4}${goto 20}/: ${font Droid Sans:style=Bold:size=8}${fs_used_perc /}%${font}${goto 100}${alignr}${fs_bar 6,68 /}
+  ${offset 7}Free: ${font Droid Sans:style=Bold:size=8}${fs_free /}${font} ${alignr 1}Used: ${font Droid Sans:style=Bold:size=8}${fs_used /}${font}
+  ${voffset 4}${goto 20}/home: ${font Droid Sans:style=Bold:size=8}${fs_used_perc /home}%${font}${goto 100}${alignr}${fs_bar 6,68 /home}
+  ${offset 7}Free: ${font Droid Sans:style=Bold:size=8}${fs_free /home}${font} ${alignr 1}Used: ${font Droid Sans:style=Bold:size=8}${fs_used /home}${font}
+  ${voffset 4}${goto 20}/var: ${font Droid Sans:style=Bold:size=8}${fs_used_perc /var}%${font}${goto 100}${alignr}${fs_bar 6,68 /var}
+  ${offset 7}Free: ${font Droid Sans:style=Bold:size=8}${fs_free /var}${font} ${alignr 1}Used: ${font Droid Sans:style=Bold:size=8}${fs_used /var}${font}
+
+# |--HDTEMP1
+  ${voffset 7}${goto 20}${voffset -4}Temperature: ${font Droid Sans:style=Bold:size=8}${execi 2 hddtemp /dev/sda -n --unit=F}°F${font}${alignr}/dev/sda
