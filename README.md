@@ -1,5 +1,7 @@
 conkyrc
 =======
+July 28, 2014
+
 This is a configuration file for Conky.
 
 
@@ -36,8 +38,3 @@ IP Region
 Hard drive stats(/, /home, /dev)
 
 HDD temp
-
-
-jd
-
-July 28, 2014
