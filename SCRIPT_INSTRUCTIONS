@@ -1,0 +1,15 @@
+I have included several scripts that will act as a means to start/stop a connection to a VPN.
+
+These must be edited to reflect your own setup in several ways.
+
+Firstly, you must have a VPN connection setup through openvpn and ready to be run as a service.
+
+This means that when you run 'systemctl start openvpn@<conf_file>.service' your VPN starts correctly.  See wiki for details.
+
+Note: if you lose Internet connection after starting the VPN your DNS is probably not resolving correctly and can be fixed with openresolv!
+
+If the above is complete, all that is required is that the paths in the scripts listed above and in the .conkyrc are changed to reflect your system's setup.
+
+Once complete, this will drastically lower the number of calls to ipinfo.io and keep you from going over quota (fucking free services, amirite??)
+
+The killconky script DOES NOT need editing and a restartvpn script is forthcoming...   

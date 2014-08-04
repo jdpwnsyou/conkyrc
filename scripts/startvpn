@@ -1,17 +1,23 @@
 #!/bin/bash
+if [ "$(id -u)" != "0" ]; then
 
-if [ ! -f /home/jd/.vpn/vpn_active ]; then
+	if [ ! -f /home/jd/.vpn/vpn_active ]; then
 
-sudo systemctl start openvpn@useast.service
-echo "Sleeping 5 seconds to accomodate IP info update..."
+	sudo systemctl start openvpn@useast.service
+	
+	echo "Sleeping 5 seconds to accomodate IP info update for conky..."
 
-sleep 5
+	sleep 5
 
-resetipinfo
+	resetipinfo
 
-touch /home/jd/.vpn/vpn_active #EDIT LINE FOR YOUR HOME FOLDER
+	touch /home/jd/.vpn/vpn_active #EDIT LINE FOR YOUR HOME FOLDER
 
-else
-echo "VPN already running!"
+	else
+	echo "VPN already running!"
+	fi
+
+	else
+	echo "Do not run this script as root, it will break things :("
 
 fi
