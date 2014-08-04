@@ -1,5 +1,7 @@
 I have included several scripts that will act as a means to start/stop a connection to a VPN.
 
+Once edited, these can be placed in your /usr/local/bin folder so that they can be run from any folder since /usr/local/bin should be within your PATH variable.  
+
 These must be edited to reflect your own setup in several ways.
 
 Firstly, you must have a VPN connection setup through openvpn and ready to be run as a service.
