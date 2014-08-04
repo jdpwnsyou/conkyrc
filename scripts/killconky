@@ -1,0 +1,6 @@
+#!/bin/bash
+
+pid=`ps aux | grep -w conky | grep -v grep | awk '{print$2}'`
+echo "Killing process $pid"
+`kill -9 $pid`
+echo "Done."

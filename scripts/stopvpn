@@ -1,0 +1,10 @@
+#!/bin/bash
+
+sudo systemctl stop openvpn@useast.service
+
+sleep 5
+
+resetipinfo
+
+rm /home/jd/.vpn/vpn_active
+

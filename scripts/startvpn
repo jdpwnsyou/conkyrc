@@ -1,0 +1,9 @@
+#!/bin/bash
+
+sudo systemctl start openvpn@useast.service
+
+sleep 5
+
+resetipinfo
+
+touch /home/jd/.vpn/vpn_active
