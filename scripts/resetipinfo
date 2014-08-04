@@ -1,10 +1,10 @@
 #!/bin/bash
 
 ip=`curl -s ipinfo.io | grep "ip" | cut -d '"' -f4`
-echo $ip > /home/jd/.vpn/public_ip
+echo $ip > /home/jd/.vpn/public_ip #EDIT LINE FOR YOUR HOME FOLDER
 
 city=`curl -s ipinfo.io | grep "city" | cut -d '"' -f4`
-echo $city > /home/jd/.vpn/city
+echo $city > /home/jd/.vpn/city #EDIT LINE FOR YOUR HOME FOLDER
 
 region=`curl -s ipinfo.io | grep "region" | cut -d '"' -f4`
-echo $region > /home/jd/.vpn/region
+echo $region > /home/jd/.vpn/region #EDIT LINE FOR YOUR HOME FOLDER

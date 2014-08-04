@@ -6,4 +6,4 @@ sleep 5
 
 resetipinfo
 
-touch /home/jd/.vpn/vpn_active
+touch /home/jd/.vpn/vpn_active #EDIT LINE FOR YOUR HOME FOLDER
