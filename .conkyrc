@@ -108,18 +108,20 @@ ${voffset 4}${goto 20}Up: ${font Droid Sans:style=Bold:size=8}${upspeed wifi0}${
 ${upspeedgraph wifi0 30,180 EEEEEE}
 ${voffset 4}${goto 20}Network: ${font Droid Sans:style=Bold:size=8}${alignr}${color green}${wireless_essid wifi0}${color}
 ${goto 20}${font }Local IP: ${font Droid Sans:style=Bold:size=8}${alignr}${addr wifi0}${font}
-${goto 20}Public IP: ${font Droid Sans:style=Bold:size=8}${alignr}${execi 30 curl -s ipinfo.io | grep "ip" | cut -d '"' -f4}${font}
-${goto 20}IP City: ${font Droid Sans:style=Bold:size=8}${alignr}${execi 30 curl -s ipinfo.io | grep "city" | cut -d '"' -f4}${font}
-${goto 20}IP Region: ${font Droid Sans:style=Bold:size=8}${alignr}${execi 30 curl -s ipinfo.io | grep "region" | cut -d '"' -f4}${font}
+${if_existing /home/jd/.vpn/vpn_active}${goto 20}Public IP: ${font Droid Sans:style=Bold:size=8}${alignr}${exec curl -s ipinfo.io | grep "ip" | cut -d '"' -f4}${font}${else}${goto 20}Public IP: ${font Droid Sans:style=Bold:size=8}${alignr}${exec curl -s ipinfo.io | grep "ip" | cut -d '"' -f4}${font}${endif}
+${if_existing /home/jd/.vpn/vpn_active}${goto 20}VPN: ${font Droid Sans: style=Bold:size=8}${alignr}${color green}Active${color}${font}${else}${goto 20}VPN: ${font Droid Sans: style=Bold:size=8}${alignr}${color red}Disabled${color}${font}${endif}
+${if_existing /home/jd/.vpn/vpn_active}${goto 20}IP City: ${font Droid Sans:style=Bold:size=8}${alignr}${exec curl -s ipinfo.io | grep "city" | cut -d '"' -f4}${font}${else}${goto 20}IP City: ${font Droid Sans:style=Bold:size=8}${alignr}${exec curl -s ipinfo.io | grep "city" | cut -d '"' -f4}${font}${endif}
+${if_existing /home/jd/.vpn/vpn_active}${goto 20}IP Region: ${font Droid Sans:style=Bold:size=8}${alignr}${exec curl -s ipinfo.io | grep "region" | cut -d '"' -f4}${font}${else}${goto 20}IP Region: ${font Droid Sans:style=Bold:size=8}${alignr}${exec curl -s ipinfo.io | grep "region" | cut -d '"' -f4}${font}${endif}
 ${else}${if_existing /proc/net/route net0}${voffset 4}Down: ${font Droid Sans:style=Bold:size=8}${downspeed net0}${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}${totaldown net0}${font}
 ${downspeedgraph net0 30,180 EEEEEE}
 ${voffset 4}${goto 20}Up: ${font Droid Sans:style=Bold:size=8}${upspeed net0}${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}${totalup net0}${font}
 ${upspeedgraph net0 30,180 EEEEEE}
 ${voffset 4}${goto 20}${font }Network: ${font Droid Sans:style=Bold:size=8}${alignr}${color green}Wired${font}${color}
 ${goto 20}${font }Local IP: ${alignr}${font Droid Sans:style=Bold:size=8}${addr net0}${font}
-${goto 20}Public IP: ${font Droid Sans:style=Bold:size=8}${alignr}${execi 30 curl -s ipinfo.io | grep "ip" | cut -d '"' -f4}${font}
-${goto 20}IP City: ${font Droid Sans:style=Bold:size=8}${alignr}${execi 30 curl -s ipinfo.io | grep "city" | cut -d '"' -f4}${font}
-${goto 20}IP Region: ${font Droid Sans:style=Bold:size=8}${alignr}${execi 30 curl -s ipinfo.io | grep "region" | cut -d '"' -f4}${font}
+${if_existing /home/jd/.vpn/vpn_active}${goto 20}Public IP: ${font Droid Sans:style=Bold:size=8}${alignr}${exec curl -s ipinfo.io | grep "ip" | cut -d '"' -f4}${font}${else}${goto 20}Public IP: ${font Droid Sans:style=Bold:size=8}${alignr}${exec curl -s ipinfo.io | grep "ip" | cut -d '"' -f4}${font}${endif}
+${if_existing /home/jd/.vpn/vpn_active}${goto 20}VPN: ${font Droid Sans: style=Bold:size=8}${alignr}${color green}Active${color}${font}${else}${goto 20}VPN: ${font Droid Sans: style=Bold:size=8}${alignr}${color red}Disabled${color}${font}${endif}
+${if_existing /home/jd/.vpn/vpn_active}${goto 20}IP City: ${font Droid Sans:style=Bold:size=8}${alignr}${exec curl -s ipinfo.io | grep "city" | cut -d '"' -f4}${font}${else}${goto 20}IP City: ${font Droid Sans:style=Bold:size=8}${alignr}${exec curl -s ipinfo.io | grep "city" | cut -d '"' -f4}${font}${endif}
+${if_existing /home/jd/.vpn/vpn_active}${goto 20}IP Region: ${font Droid Sans:style=Bold:size=8}${alignr}${exec curl -s ipinfo.io | grep "region" | cut -d '"' -f4}${font}${else}${goto 20}IP Region: ${font Droid Sans:style=Bold:size=8}${alignr}${exec curl -s ipinfo.io | grep "region" | cut -d '"' -f4}${font}${endif}
 ${else}${voffset 4}${goto 20}${voffset 4}Down: ${font Droid Sans:style=Bold:size=8}-${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}-
 ${downspeedgraph none 30,180 EEEEEE}${font}
 ${voffset 4}${goto 20}Up: ${font Droid Sans:style=Bold:size=8}-${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}-${font}
@@ -127,6 +129,7 @@ ${upspeedgraph none 30,180 EEEEEE}
 ${voffset 4}${goto 20}${font }Network: ${font Droid Sans:style=Bold:size=8}${alignr}${color red}Not connected${font}${color}
 ${goto 20}${font }Local IP: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}
 ${goto 20}Public IP: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}
+${goto 20}VPN: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}
 ${goto 20}IP City: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}
 ${goto 20}IP Region: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}
 ${endif}${endif}
