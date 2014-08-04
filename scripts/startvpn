@@ -1,9 +1,17 @@
 #!/bin/bash
 
+if [ ! -f /home/jd/.vpn/vpn_active ]; then
+
 sudo systemctl start openvpn@useast.service
+echo "Sleeping 5 seconds to accomodate IP info update..."
 
 sleep 5
 
 resetipinfo
 
 touch /home/jd/.vpn/vpn_active #EDIT LINE FOR YOUR HOME FOLDER
+
+else
+echo "VPN already running!"
+
+fi
