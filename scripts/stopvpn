@@ -15,8 +15,9 @@ sleep 5
 
 resetipinfo
 
-rm /home/jd/.vpn/vpn_active #EDIT LINE FOR YOUR HOME FOLDER
-
+   if [ -f /home/jd/.vpn/vpn_active ]; then
+   rm /home/jd/.vpn/vpn_active #EDIT LINE FOR YOUR HOME FOLDER
+   fi
 fi
 
 else

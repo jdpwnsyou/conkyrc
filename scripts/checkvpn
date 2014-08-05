@@ -1,0 +1,14 @@
+#!/bin/bash
+
+status=`ps aux | grep openvpn | grep -v 'grep openvpn'`
+   
+if [[ -z "$status" ]]; then
+	echo "Disabled" > /home/jd/.vpn/vpn_status
+	if [ -f /home/jd/.vpn/vpn_active ]; then
+		rm /home/jd/.vpn/vpn_active
+	fi
+	else
+	echo "Active" > /home/jd/.vpn/vpn_status
+	touch /home/jd/.vpn/vpn_active
+fi
+echo $status

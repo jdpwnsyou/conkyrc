@@ -1,18 +1,20 @@
 #!/bin/bash
 
-ip=`curl -s ipinfo.io | grep "ip" | cut -d '"' -f4`
-echo $ip > /home/jd/.vpn/public_ip #EDIT LINE 
+curl -s ipinfo.io > /home/jd/.vpn/ipinfo
 
-city=`curl -s ipinfo.io | grep "city" | cut -d '"' -f4`
+ip=`cat /home/jd/.vpn/ipinfo | grep "ip" | cut -d '"' -f4`
+echo $ip > /home/jd/.vpn/public_ip  
+
+city=`cat /home/jd/.vpn/ipinfo | grep "city" | cut -d '"' -f4`
    if [[ -z "$city" ]]; then
-      echo "N/A" > /home/jd/.vpn/city #EDIT LINE 
+      echo "N/A" > /home/jd/.vpn/city 
       else
-      echo $city > /home/jd/.vpn/city #EDIT LINE 
+      echo $city > /home/jd/.vpn/city 
    fi
 
-region=`curl -s ipinfo.io | grep "region" | cut -d '"' -f4`
+region=`cat /home/jd/.vpn/ipinfo | grep "region" | cut -d '"' -f4`
    if [[ -z "$region" ]]; then
-      echo "N/A" > /home/jd/.vpn/region #EDIT LINE
+      echo "N/A" > /home/jd/.vpn/region 
       else
-      echo $region > /home/jd/.vpn/region #EDIT LINE
+      echo $region > /home/jd/.vpn/region 
    fi
