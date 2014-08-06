@@ -1,0 +1,11 @@
+wget -q --spider http://www.google.com
+
+if [ "$?" != 0 ]; then
+
+   status=`ps aux | grep openvpn | grep -v color=auto`
+   
+   if [ ! -z "$status" ]; then 
+      killall openvpn
+   fi
+
+fi

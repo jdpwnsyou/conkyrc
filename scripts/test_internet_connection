@@ -1,0 +1,8 @@
+#!/bin/bash
+
+wget -q --spider http://www.google.com
+if [ "$?" != 0 ]; then
+echo "No connection!"
+else
+echo "Connected!"
+fi
