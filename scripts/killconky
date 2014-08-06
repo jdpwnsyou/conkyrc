@@ -1,6 +1,9 @@
 #!/bin/bash
 
 pid=`ps aux | grep -w conky | grep -v grep | awk '{print$2}'`
+if [[ -z "$pid" ]]; then
+echo "Conky is not running!"
+else
 echo "Killing process $pid"
 `kill -9 $pid`
-echo "Done."
+fi
