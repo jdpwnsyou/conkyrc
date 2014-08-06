@@ -2,19 +2,19 @@
 
 curl -s ipinfo.io > /home/jd/.vpn/ipinfo
 
-ip=`cat /home/jd/.vpn/ipinfo | grep "ip" | cut -d '"' -f4`
-echo $ip > /home/jd/.vpn/public_ip  
+ip=$(grep ip < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
+echo "$ip" > /home/jd/.vpn/public_ip  
 
-city=`cat /home/jd/.vpn/ipinfo | grep "city" | cut -d '"' -f4`
+city=$(grep city < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
    if [[ -z "$city" ]]; then
       echo "N/A" > /home/jd/.vpn/city 
       else
-      echo $city > /home/jd/.vpn/city 
+      echo "$city" > /home/jd/.vpn/city 
    fi
 
-region=`cat /home/jd/.vpn/ipinfo | grep "region" | cut -d '"' -f4`
+region=$(grep region < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
    if [[ -z "$region" ]]; then
       echo "N/A" > /home/jd/.vpn/region 
       else
-      echo $region > /home/jd/.vpn/region 
+      echo "$region" > /home/jd/.vpn/region 
    fi
