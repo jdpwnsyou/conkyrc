@@ -1,0 +1,20 @@
+#!/bin/bash
+# Restarts the VPN service and handles the subsequent ipinfo updates for conky
+
+status=$(pgrep openvpn)
+
+if [ "$(id -u)" != "0" ]
+then
+   if [[ -z "$status" ]] 
+   then
+      echo "VPN is not running!"
+   else
+      sudo systemctl restart openvpn@useast.service
+      echo "Sleeping 5 seconds to accomodate IP info update for conky..."
+      sleep 5
+      resetipinfo
+   fi
+else
+   echo "Do not run this script as root, it will break things :("
+fi
+

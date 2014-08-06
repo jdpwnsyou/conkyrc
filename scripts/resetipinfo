@@ -1,20 +1,26 @@
 #!/bin/bash
+# This script resets the public ip, city, and region for an active Internet connection.
 
-curl -s ipinfo.io > /home/jd/.vpn/ipinfo
+status=$(/usr/local/bin/test_internet_connection)
+if [[ $status == 1 ]]
+then
+   curl -s ipinfo.io > /home/jd/.vpn/ipinfo
+   ip=$(grep ip < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
+   echo "$ip" > /home/jd/.vpn/public_ip  
 
-ip=$(grep ip < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
-echo "$ip" > /home/jd/.vpn/public_ip  
-
-city=$(grep city < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
-   if [[ -z "$city" ]]; then
+   city=$(grep city < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
+   if [[ -z "$city" ]]
+   then
       echo "N/A" > /home/jd/.vpn/city 
-      else
+   else
       echo "$city" > /home/jd/.vpn/city 
    fi
 
-region=$(grep region < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
-   if [[ -z "$region" ]]; then
+   region=$(grep region < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
+   if [[ -z "$region" ]]
+   then
       echo "N/A" > /home/jd/.vpn/region 
-      else
+   else
       echo "$region" > /home/jd/.vpn/region 
    fi
+fi

@@ -1,8 +1,9 @@
 #!/bin/bash
 
 pid=$(pgrep conky)
-if [[ -z "$pid" ]]; then
-echo "Conky is not running!"
+if [[ -z "$pid" ]]
+then
+   echo "Conky is not running!"
 else
-$(kill -9 $pid)
+   $(pkill conky)
 fi

@@ -1,8 +1,13 @@
 #!/bin/bash
+# This script tests the computer's Internet connection.
+# Returns 0 or 1 based on connection status.
+# 0 - No Active Connection
+# 1 - Active Connection
 
 wget -q --spider http://www.google.com
-if [ "$?" != 0 ]; then
-echo "No connection!"
+if [ "$?" != 0 ]
+then
+   echo "0"
 else
-echo "Connected!"
+   echo "1"
 fi
