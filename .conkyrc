@@ -101,9 +101,9 @@ ${alignc}${time %A %d %B %Y}
 ###############
 # - NETWORK - #
 ###############
-${voffset 4}${font Droid Sans:style=Bold:size=8}NETWORK $stippled_hr${font}${execi 60 /usr/local/bin/resetipinfo}${exec /usr/local/bin/checkvpn}
+${voffset 4}${font Droid Sans:style=Bold:size=8}NETWORK $stippled_hr${font}
 ${goto 20}${if_existing /proc/net/route wifi0}${voffset 4}Down: ${font Droid Sans:style=Bold:size=8}${downspeed wifi0}${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}${totaldown wifi0}
-${downspeedgraph wifi0 30,180 EEEEEE}${font}
+${downspeedgraph wifi0 30,180 EEEEEE}${font}${execi 60 /usr/local/bin/resetipinfo} ${execi 4 /usr/local/bin/checkvpn}
 ${voffset 4}${goto 20}Up: ${font Droid Sans:style=Bold:size=8}${upspeed wifi0}${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}${totalup wifi0}${font}
 ${upspeedgraph wifi0 30,180 EEEEEE}
 ${voffset 4}${goto 20}Network: ${font Droid Sans:style=Bold:size=8}${alignr}${color green}${wireless_essid wifi0}${color}
@@ -112,7 +112,7 @@ ${if_existing /home/jd/.vpn/vpn_active}${goto 20}Public IP: ${font Droid Sans:st
 ${if_existing /home/jd/.vpn/vpn_active}${goto 20}VPN: ${font Droid Sans: style=Bold:size=8}${alignr}${color green}${exec cat /home/jd/.vpn/vpn_status}${color}${font}${else}${goto 20}VPN: ${font Droid Sans: style=Bold:size=8}${alignr}${color red}${exec cat /home/jd/.vpn/vpn_status}${font}${color}${endif}
 ${if_existing /home/jd/.vpn/vpn_active}${goto 20}IP City: ${font Droid Sans:style=Bold:size=8}${alignr}${exec cat /home/jd/.vpn/city}${font}${else}${goto 20}IP City: ${font Droid Sans:style=Bold:size=8}${alignr}${exec cat /home/jd/.vpn/city}${font}${endif}
 ${if_existing /home/jd/.vpn/vpn_active}${goto 20}IP Region: ${font Droid Sans:style=Bold:size=8}${alignr}${exec cat /home/jd/.vpn/region}${font}${else}${goto 20}IP Region: ${font Droid Sans:style=Bold:size=8}${alignr}${exec cat /home/jd/.vpn/region}${font}${endif}
-${else}${if_existing /proc/net/route net0}${voffset 4}Down: ${font Droid Sans:style=Bold:size=8}${downspeed net0}${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}${totaldown net0}${font}
+${else}${if_existing /proc/net/route net0}${voffset 4}${execi 60 /usr/local/bin/resetipinfo}${exec /usr/local/bin/checkvpn}Down: ${font Droid Sans:style=Bold:size=8}${downspeed net0}${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}${totaldown net0}${font}
 ${downspeedgraph net0 30,180 EEEEEE}
 ${voffset 4}${goto 20}Up: ${font Droid Sans:style=Bold:size=8}${upspeed net0}${font}${alignr}Total: ${font Droid Sans:style=Bold:size=8}${totalup net0}${font}
 ${upspeedgraph net0 30,180 EEEEEE}
