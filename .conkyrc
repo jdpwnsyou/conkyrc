@@ -131,7 +131,7 @@ ${goto 20}${font }Local IP: ${font Droid Sans:style=Bold:size=8}${alignr}- ${fon
 ${goto 20}Public IP: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}
 ${goto 20}VPN: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}
 ${goto 20}IP City: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}
-${goto 20}IP Region: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}
+${goto 20}IP Region: ${font Droid Sans:style=Bold:size=8}${alignr}- ${font}${execi 10 /usr/local/bin/checkvpn}
 ${endif}${endif}
 ##########
 # - HD - #
