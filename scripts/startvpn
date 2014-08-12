@@ -1,19 +1,34 @@
 #!/bin/bash
 # This script will start the VPN client for a US EAST server and update conky info as necessary 
 
+msg_green() {
+	printf "${GREEN}==>${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+}
+
+msg_error() {
+	printf "${RED}==> ERROR:${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+}
+
+ALL_OFF="$(tput sgr0)"
+BOLD="$(tput bold)"
+GREEN="${BOLD}$(tput setaf 2)"
+RED="${BOLD}$(tput setaf 1)"
+
 if [ "$(id -u)" != "0" ]
 then
    status=$(pgrep openvpn)
    if [[ -z "$status" ]]
    then
+      msg_green "Starting US East VPN connection..."
       sudo systemctl start openvpn@useast.service
-      echo "Sleeping 5 seconds to accomodate IP info update for conky..."
+      msg_green "Sleeping 5 seconds to accomodate IP info update for conky..."
       sleep 5
       resetipinfo
-      touch /home/jd/.vpn/vpn_active 
+      touch /home/jd/.vpn/vpn_active
+      msg_green "Done."
    else
-      echo "VPN already running!"
+      msg_error "VPN already running!"
    fi
 else
-   echo "Do not run this script as root, it will break things :("
+   msg_error "Do not run this script as root, it will break things :("
 fi
