@@ -1,0 +1,6 @@
+#!/bin/bash
+# resetnetworkinfo
+# This script will reset the MAC address info and the IP info used for conky
+
+resetipinfo
+resetmacinfo

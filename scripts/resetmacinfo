@@ -1,0 +1,49 @@
+#!/bin/bash
+# resetmacinfo
+#
+# This script will reset the MAC address information for the ethernet port
+# It also controls the 'mac_spoofed' file located at ~/.vpn/mac_spoofed
+# The existance/non-existance of "mac_spoofed" dictates the 
+# conditional coloring used in conky.
+#
+# John Dickinson
+# September 25, 2014
+
+msg_green() {
+	printf "${GREEN}==>${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+}
+
+msg_error() {
+	printf "${RED}==>${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+}
+
+msg_blue() {
+	printf "${BLUE}  ->${ALL_OFF} $1${ALL_OFF}\n"
+}
+
+ALL_OFF="$(tput sgr0)"
+BOLD="$(tput bold)"
+GREEN="${BOLD}$(tput setaf 2)"
+RED="${BOLD}$(tput setaf 1)"
+BLUE="${BOLD}$(tput setaf 4)"
+
+mac_address=`ip link | grep link/ether | awk '{print$2}'`
+real_mac_address=`cat /home/jd/.vpn/real_mac_address`
+
+msg_green "MAC Address Information:"
+echo $mac_address > /home/jd/.vpn/mac_address
+
+if [ "$mac_address" != "$real_mac_address" ]
+then
+   msg_blue "MAC Address: $mac_address"
+   msg_blue "MAC address is spoofed."
+	touch /home/jd/.vpn/mac_spoofed
+else
+	msg_blue "MAC Address: $mac_address (factory)"
+	msg_blue "MAC address is not spoofed."
+	if [ -f /home/jd/.vpn/mac_spoofed ]
+	then
+	   rm /home/jd/.vpn/mac_spoofed
+	fi
+fi
+

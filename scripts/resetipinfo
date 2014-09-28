@@ -1,26 +1,65 @@
 #!/bin/bash
+# resetipinfo
+#
 # This script resets the public ip, city, and region for an active Internet connection.
+# This means it directly controls the ipinfo, public_ip, city, and region files in ~/.vpn/
 
-status=$(/usr/local/bin/test_internet_connection)
-if [[ $status == 1 ]]
+msg_green() {
+	printf "${GREEN}==>${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+}
+
+msg_error() {
+	printf "${RED}==>${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+}
+
+msg_blue() {
+	printf "${BLUE}  ->${ALL_OFF} $1${ALL_OFF}\n"
+}
+
+ALL_OFF="$(tput sgr0)"
+BOLD="$(tput bold)"
+GREEN="${BOLD}$(tput setaf 2)"
+RED="${BOLD}$(tput setaf 1)"
+BLUE="${BOLD}$(tput setaf 4)"
+
+internet_connection_status=$(/usr/local/bin/test_internet_connection)
+if [[ $internet_connection_status == 1 ]]
 then
+   msg_green "IP Information:"
+   
    curl -s ipinfo.io > /home/jd/.vpn/ipinfo
    ip=$(grep ip < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
-   echo "$ip" > /home/jd/.vpn/public_ip  
-
-   city=$(grep city < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
-   if [[ -z "$city" ]]
+   
+	if [[ $ip == R* ]]
+	then
+      msg_error "Rate exceeded: ipinfo.io, using backup..."
+      curl -s http://ipecho.net/plain > /home/jd/.vpn/public_ip
+		$ip=`cat /home/jd/.vpn/public_ip`
+		msg_blue "IP: $ip"
+	else
+      echo "$ip" > /home/jd/.vpn/public_ip
+		msg_blue "IP: $ip"  
+   fi
+   
+	city=$(grep city < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
+   
+	if [[ -z "$city" ]]
    then
+	   msg_blue "City data not available!"
       echo "N/A" > /home/jd/.vpn/city 
    else
-      echo "$city" > /home/jd/.vpn/city 
+      echo "$city" > /home/jd/.vpn/city
+		msg_blue "City: $city" 
    fi
 
    region=$(grep region < /home/jd/.vpn/ipinfo | cut -d '"' -f4)
-   if [[ -z "$region" ]]
+   
+	if [[ -z "$region" ]]
    then
+	   msg_blue "Region data not available!"
       echo "N/A" > /home/jd/.vpn/region 
    else
-      echo "$region" > /home/jd/.vpn/region 
-   fi
+      echo "$region" > /home/jd/.vpn/region
+		msg_blue "Region: $region" 
+   fi	
 fi

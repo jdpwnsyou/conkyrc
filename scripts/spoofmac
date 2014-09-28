@@ -1,0 +1,39 @@
+#!/bin/bash
+# This script will spoof a random MAC address for the ethernet port in this computer
+
+msg_green() {
+	printf "${GREEN}==>${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+}
+
+msg_error() {
+	printf "${RED}==>${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+}
+
+ALL_OFF="$(tput sgr0)"
+BOLD="$(tput bold)"
+GREEN="${BOLD}$(tput setaf 2)"
+RED="${BOLD}$(tput setaf 1)"
+
+real_mac_address=`cat /home/jd/.vpn/real_mac_address`
+mac_address=`ip link | grep link/ether | awk '{print$2}'`
+
+if [ "$mac_address" = "$real_mac_address" ]
+then
+   msg_green "Spoofing MAC address..."
+   sudo macchanger -r eno1
+   mac_address=`ip link | grep link/ether | awk '{print$2}'`
+   
+	if [ "$mac_address" != "$real_mac_address" ]
+	then
+	   touch /home/jd/.vpn/mac_spoofed
+	   echo $mac_address > /home/jd/.vpn/mac_address
+	   msg_green "MAC address spoofed sucessfully."
+	else
+	   msg_error "Error spoofing MAC address!"
+		echo "Current MAC: $mac_address"
+		echo "Real MAC: $real_mac_address"
+	fi
+
+else
+   msg_error "MAC address already spoofed!"
+fi

@@ -6,7 +6,7 @@ msg_green() {
 }
 
 msg_error() {
-	printf "${RED}==> ERROR:${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+	printf "${RED}==>${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
 }
 
 ALL_OFF="$(tput sgr0)"
@@ -19,14 +19,23 @@ then
    status=$(pgrep openvpn)
    if [[ -z "$status" ]] 
    then
-      msg_error "VPN is not running!"
+      msg_error "VPN is not running."
    else
       msg_green "Stopping US East VPN connection..."
       sudo systemctl stop openvpn@useast.service
       msg_green "Sleeping 5 seconds to accomodate IP info update for conky..."
       sleep 5
+		checkvpn
       resetipinfo
-      msg_green "Done."
+		
+		vpn_status=`cat /home/jd/.vpn/vpn_status`
+		status=$(pgrep openvpn)
+      if [ "$vpn_status" = "Disabled" -a -z "$status" ] 
+		then
+		msg_green "VPN service halted."
+		else
+		msg_error "VPN service not halted!"
+		fi
       
       if [ -f /home/jd/.vpn/vpn_active ]
       then

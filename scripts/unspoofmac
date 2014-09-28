@@ -1,0 +1,46 @@
+#!/bin/bash
+# This script will reset the MAC address of the ethernet controller to it's factory value
+
+msg_green() {
+	printf "${GREEN}==>${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+}
+
+msg_error() {
+	printf "${RED}==>${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+}
+
+ALL_OFF="$(tput sgr0)"
+BOLD="$(tput bold)"
+GREEN="${BOLD}$(tput setaf 2)"
+RED="${BOLD}$(tput setaf 1)"
+
+mac_address=`ip link | grep link/ether | awk '{print$2}'`
+real_mac_address=`cat /home/jd/.vpn/real_mac_address`
+
+if [ "$mac_address" != "$real_mac_address" ] 
+then
+	msg_green "Reverting MAC address to factory settings..."
+   
+	sudo macchanger -p eno1
+	
+	if [ -f /home/jd/.vpn/mac_spoofed ]
+	then
+		rm /home/jd/.vpn/mac_spoofed
+	fi
+   
+	mac_address=`ip link | grep link/ether | awk '{print$2}'`
+	
+
+	if [ "$mac_address" = "$real_mac_address" ]
+	then
+	   echo $mac_address > /home/jd/.vpn/mac_address
+	   msg_green "Factory MAC address restored."
+	else
+	   msg_error "Error restoring factory MAC address!"
+		echo "Current MAC: $mac_address"
+		echo "Real MAC: $real_mac_address"
+	fi
+else
+	msg_error "MAC not currently spoofed!"
+fi
+

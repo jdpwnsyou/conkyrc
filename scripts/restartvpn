@@ -1,20 +1,35 @@
 #!/bin/bash
 # Restarts the VPN service and handles the subsequent ipinfo updates for conky
 
+msg_green() {
+		printf "${GREEN}==>${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+}
+
+msg_error() {
+		printf "${RED}==> ERROR:${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
+}
+
+ALL_OFF="$(tput sgr0)"
+BOLD="$(tput bold)"
+GREEN="${BOLD}$(tput setaf 2)"
+RED="${BOLD}$(tput setaf 1)"
+
 status=$(pgrep openvpn)
 
 if [ "$(id -u)" != "0" ]
 then
    if [[ -z "$status" ]] 
    then
-      echo "VPN is not running!"
+      msg_error "VPN is not running!"
    else
+		msg_green "Restarting VPN connection..."
       sudo systemctl restart openvpn@useast.service
-      echo "Sleeping 5 seconds to accomodate IP info update for conky..."
-      sleep 5
+      msg_green "Sleeping 5 seconds to accomodate IP info update for conky..."
+		sleep 5
       resetipinfo
+		msg_green "VPN restarted successfully."
    fi
 else
-   echo "Do not run this script as root, it will break things :("
+   msg_error "Do not run this script as root, it will break things :("
 fi
 
