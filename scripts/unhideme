@@ -1,0 +1,5 @@
+#!/bin/bash
+# This script will return the MAC Address and VPN settings to their defaults
+
+stopvpn
+unspoofmac

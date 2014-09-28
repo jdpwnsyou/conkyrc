@@ -35,10 +35,12 @@ then
 	then
 	   echo $mac_address > /home/jd/.vpn/mac_address
 	   msg_green "Factory MAC address restored."
+		resetmacinfo
 	else
 	   msg_error "Error restoring factory MAC address!"
 		echo "Current MAC: $mac_address"
 		echo "Real MAC: $real_mac_address"
+		resetmacinfo
 	fi
 else
 	msg_error "MAC not currently spoofed!"

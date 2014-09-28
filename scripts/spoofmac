@@ -1,5 +1,8 @@
 #!/bin/bash
+#
+# /* spoofmac */
 # This script will spoof a random MAC address for the ethernet port in this computer
+# and store it in ~/.vpn/mac_address
 
 msg_green() {
 	printf "${GREEN}==>${ALL_OFF}${BOLD} $1${ALL_OFF}\n"
@@ -28,12 +31,14 @@ then
 	   touch /home/jd/.vpn/mac_spoofed
 	   echo $mac_address > /home/jd/.vpn/mac_address
 	   msg_green "MAC address spoofed sucessfully."
+		resetmacinfo
 	else
 	   msg_error "Error spoofing MAC address!"
-		echo "Current MAC: $mac_address"
-		echo "Real MAC: $real_mac_address"
+		rm /home/jd/.vpn/mac_spoofed
+		resetmacinfo
 	fi
 
 else
    msg_error "MAC address already spoofed!"
+	touch /home/jd/.vpn/mac_spoofed
 fi

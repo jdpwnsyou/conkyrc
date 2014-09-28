@@ -1,5 +1,8 @@
 #!/bin/bash
-# Checks the status of the VPN connection and updates vpn_status as necessary
+
+# /* checkvpn */
+# Checks the status of the VPN connection (actve/disabled) 
+# and stores it in ~/.vpn/vpn_status
 
 is_vpn_running=$(pgrep openvpn)   
 if [[ -z "$is_vpn_running" ]]

@@ -21,10 +21,10 @@ then
    then
       msg_green "Starting US East VPN connection..."
       sudo systemctl start openvpn@useast.service
-      msg_green "Sleeping 5 seconds to accomodate IP info update for conky..."
+      
+		msg_green "Sleeping 5 seconds to accomodate IP info update for conky..."
       sleep 5
-      touch /home/jd/.vpn/vpn_active
-      resetipinfo
+	
 		checkvpn
 		vpn_status=`cat /home/jd/.vpn/vpn_status`
 		openvpn_status=$(pgrep openvpn)
@@ -32,11 +32,14 @@ then
 		if [ "$vpn_status" = "Active" -a ! -z "$openvpn_status" ]
 		then
          msg_green "VPN is now running."
+ 			touch /home/jd/.vpn/vpn_active
+			resetipinfo
 		else
 		   msg_error "VPN failed to start!"
+			resetipinfo
 		fi
    else
-      msg_error "VPN already running."
+      msg_error "VPN already running!"
    fi
 else
    msg_error "Do not run this script as root, it will break things :("

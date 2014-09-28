@@ -1,8 +1,8 @@
 #!/bin/bash
-# resetmacinfo
 #
+# /* resetmacinfo */
 # This script will reset the MAC address information for the ethernet port
-# It also controls the 'mac_spoofed' file located at ~/.vpn/mac_spoofed
+# It also controls the 'mac_spoofed' file located at ~/.vpn/mac_spoofed.
 # The existance/non-existance of "mac_spoofed" dictates the 
 # conditional coloring used in conky.
 #

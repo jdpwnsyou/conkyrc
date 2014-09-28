@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# /* hideme* /
 # This script will effectively hide your activity online.
 # It starts a logless VPN connection and spoofs the ethernet MAC address
 
@@ -15,28 +17,32 @@ BOLD="$(tput bold)"
 GREEN="${BOLD}$(tput setaf 2)"
 RED="${BOLD}$(tput setaf 1)"
 
-startvpn
-
+script_error="-1"
 real_mac_address=`cat /home/jd/.vpn/real_mac_address`
+
+startvpn
 
 if [ ! -f /home/jd/.vpn/mac_spoofed ]
 then
-   msg_green "Spoofing MAC address..."
-	sudo macchanger -r eno1
-	resetmacinfo
+	spoofmac
 else
-	msg_green "MAC already spoofed!"
-	resetmacinfo
+	msg_error "MAC already spoofed!"
+	script_error="true"
 fi
 
 checkvpn
-
 vpn_status=`cat /home/jd/.vpn/vpn_status`
 
-if [ "$vpn_status" == "Active" -a "$mac_address" != "$real_mac_address" ]
+if [ "$vpn_status" == "Active" ]
 then
-	msg_green "Success!"
-else
-	msg_error "Errors occured, cloaking failed."
+   if [ "$mac_address" != "$real_mac_address" ]
+	then
+	   if [ "$script_error" != "true" ]
+		then
+         msg_green "Cloaking successful."
+     	else
+         msg_error "Errors occured."
+     	fi
+	fi				
 fi
 
